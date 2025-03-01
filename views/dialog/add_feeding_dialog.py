@@ -3,7 +3,6 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from PyQt6.QtWidgets import QDialog
 from views.dialog.add_feeding import Ui_AddFeedingDialog
-from PyQt6.QtCore import QDate
 
 class AddFeedingDialog(QDialog, Ui_AddFeedingDialog):
     def __init__(self, parent=None):

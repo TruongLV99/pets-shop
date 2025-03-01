@@ -29,6 +29,9 @@
        <bold>true</bold>
       </font>
      </property>
+     <property name="styleSheet">
+      <string notr="true">font-weight: bold;</string>
+     </property>
      <property name="text">
       <string>Thêm hoạt động thể chất</string>
      </property>

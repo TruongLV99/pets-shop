@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>ExpenseDialog</class>
- <widget class="QDialog" name="ExpenseDialog">
+ <class>AddExpenseDialog</class>
+ <widget class="QDialog" name="AddExpenseDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Thêm chi phí mới</string>
+   <string>Thêm chi phí</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
@@ -29,8 +29,11 @@
        <bold>true</bold>
       </font>
      </property>
+     <property name="styleSheet">
+      <string notr="true">font-weight: bold;</string>
+     </property>
      <property name="text">
-      <string>Thêm chi phí mới</string>
+      <string>Thêm chi phí</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
@@ -47,7 +50,7 @@
       </widget>
      </item>
      <item row="0" column="1">
-      <widget class="QLineEdit" name="categoryLineEdit_2">
+      <widget class="QLineEdit" name="expense_type">
        <property name="placeholderText">
         <string>Nhập loại chi phí</string>
        </property>
@@ -61,7 +64,7 @@
       </widget>
      </item>
      <item row="1" column="1">
-      <widget class="QDateEdit" name="dateEdit">
+      <widget class="QDateEdit" name="expense_date">
        <property name="displayFormat">
         <string>dd/MM/yyyy</string>
        </property>
@@ -70,15 +73,15 @@
        </property>
       </widget>
      </item>
-     <item row="2" column="0">
+     <item row="3" column="0">
       <widget class="QLabel" name="amountLabel">
        <property name="text">
         <string>Số tiền:</string>
        </property>
       </widget>
      </item>
-     <item row="2" column="1">
-      <widget class="QDoubleSpinBox" name="amountSpinBox">
+     <item row="3" column="1">
+      <widget class="QDoubleSpinBox" name="amount">
        <property name="suffix">
         <string> VNĐ</string>
        </property>
@@ -93,27 +96,27 @@
        </property>
       </widget>
      </item>
-     <item row="3" column="0">
+     <item row="4" column="0">
       <widget class="QLabel" name="detailsLabel">
        <property name="text">
         <string>Chi tiết:</string>
        </property>
       </widget>
      </item>
-     <item row="3" column="1">
-      <widget class="QTextEdit" name="detailsTextEdit">
+     <item row="4" column="1">
+      <widget class="QTextEdit" name="description">
        <property name="placeholderText">
         <string>Nhập chi tiết...</string>
        </property>
       </widget>
      </item>
-     <item row="4" column="1">
+     <item row="5" column="1">
       <layout class="QHBoxLayout" name="horizontalLayout_3">
        <property name="topMargin">
         <number>20</number>
        </property>
        <item>
-        <widget class="QPushButton" name="pushButton_5">
+        <widget class="QPushButton" name="btn_add_expense">
          <property name="minimumSize">
           <size>
            <width>70</width>
@@ -158,6 +161,20 @@
         </widget>
        </item>
       </layout>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="timeLabel">
+       <property name="text">
+        <string>Thời gian:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QTimeEdit" name="expense_time">
+       <property name="displayFormat">
+        <string>hh:mm</string>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>ExpenseDialog</class>
- <widget class="QDialog" name="ExpenseDialog">
+ <class>AddAppointmentDialog</class>
+ <widget class="QDialog" name="AddAppointmentDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -29,6 +29,9 @@
        <bold>true</bold>
       </font>
      </property>
+     <property name="styleSheet">
+      <string notr="true">font-weight: bold;</string>
+     </property>
      <property name="text">
       <string>Đặt lịch hẹn</string>
      </property>
@@ -47,7 +50,7 @@
       </widget>
      </item>
      <item row="0" column="1">
-      <widget class="QDateEdit" name="dateEdit">
+      <widget class="QDateEdit" name="appointment_date">
        <property name="displayFormat">
         <string>dd/MM/yyyy</string>
        </property>
@@ -62,7 +65,7 @@
         <number>20</number>
        </property>
        <item>
-        <widget class="QPushButton" name="pushButton_5">
+        <widget class="QPushButton" name="btn_add_appointment">
          <property name="minimumSize">
           <size>
            <width>70</width>
@@ -85,7 +88,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButton_6">
+        <widget class="QPushButton" name="btn_cancel">
          <property name="minimumSize">
           <size>
            <width>70</width>
@@ -116,14 +119,14 @@
       </widget>
      </item>
      <item row="1" column="1">
-      <widget class="QTimeEdit" name="timeEdit">
+      <widget class="QTimeEdit" name="appointment_time">
        <property name="displayFormat">
         <string>hh:mm</string>
        </property>
       </widget>
      </item>
      <item row="2" column="1">
-      <widget class="QTextEdit" name="purposeTextEdit">
+      <widget class="QTextEdit" name="purpose">
        <property name="placeholderText">
         <string>Nhập mục đích cuộc hẹn...</string>
        </property>

@@ -22,6 +22,7 @@ class Ui_AddExerciseDialog(object):
         font.setBold(True)
         font.setWeight(75)
         self.titleLabel.setFont(font)
+        self.titleLabel.setStyleSheet("font-weight: bold;")
         self.titleLabel.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.titleLabel.setObjectName("titleLabel")
         self.verticalLayout.addWidget(self.titleLabel)

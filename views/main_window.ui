@@ -479,6 +479,9 @@ font-weight: bold;</string>
            <property name="styleSheet">
             <string notr="true">background-color: #fff;</string>
            </property>
+           <property name="placeholderText">
+            <string>Nhập mã thú cưng</string>
+           </property>
           </widget>
          </item>
          <item row="0" column="2">
@@ -574,6 +577,9 @@ font-weight: bold;</string>
             </property>
             <attribute name="horizontalHeaderCascadingSectionResizes">
              <bool>false</bool>
+            </attribute>
+            <attribute name="horizontalHeaderMinimumSectionSize">
+             <number>150</number>
             </attribute>
             <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
              <bool>false</bool>
@@ -686,6 +692,14 @@ font-weight: bold;</string>
               <set>AlignCenter</set>
              </property>
             </column>
+            <column>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="textAlignment">
+              <set>AlignCenter</set>
+             </property>
+            </column>
            </widget>
           </item>
          </layout>
@@ -717,6 +731,9 @@ font-weight: bold;</string>
           <widget class="QLineEdit" name="keyword_search">
            <property name="styleSheet">
             <string notr="true">background-color: #fff;</string>
+           </property>
+           <property name="placeholderText">
+            <string>Nhập mã thú cưng</string>
            </property>
           </widget>
          </item>
@@ -1063,90 +1080,6 @@ font-weight: bold;</string>
          </item>
         </layout>
        </widget>
-       <widget class="QWidget" name="layoutWidget">
-        <property name="geometry">
-         <rect>
-          <x>40</x>
-          <y>320</y>
-          <width>921</width>
-          <height>37</height>
-         </rect>
-        </property>
-        <layout class="QHBoxLayout" name="danh_sach_btn">
-         <item>
-          <widget class="QPushButton" name="btn_edit">
-           <property name="styleSheet">
-            <string notr="true">background-color: #337aff;
-font-weight: bold;
-color: #fff;</string>
-           </property>
-           <property name="text">
-            <string>Sửa</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="btn_lich_hen">
-           <property name="styleSheet">
-            <string notr="true">background-color: #ff6133;
-font-weight: bold;
-color: #fff;</string>
-           </property>
-           <property name="text">
-            <string>Lịch hẹn</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="btn_che_do_an_uong">
-           <property name="styleSheet">
-            <string notr="true">background-color: #ffd433;
-font-weight: bold;
-color: #fff;</string>
-           </property>
-           <property name="text">
-            <string>Chế độ ăn uống</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="btn_hoat_dong">
-           <property name="styleSheet">
-            <string notr="true">background-color: #8d33ff;
-font-weight: bold;
-color: #fff;</string>
-           </property>
-           <property name="text">
-            <string>Hoạt động</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="btn_cham_soc_suc_khoe">
-           <property name="styleSheet">
-            <string notr="true">background-color: #ff33dd;
-font-weight: bold;
-color: #fff;</string>
-           </property>
-           <property name="text">
-            <string>Chăm sóc sức khỏe</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="btn_chi_phi">
-           <property name="styleSheet">
-            <string notr="true">background-color: #363636;
-font-weight: bold;
-color: #fff;</string>
-           </property>
-           <property name="text">
-            <string>Chi phí</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </widget>
        <widget class="QScrollArea" name="thong_tin_khac">
         <property name="geometry">
          <rect>
@@ -1266,6 +1199,14 @@ font-weight: bold;</string>
             <column>
              <property name="text">
               <string>Chi tiết</string>
+             </property>
+             <property name="textAlignment">
+              <set>AlignCenter</set>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string/>
              </property>
              <property name="textAlignment">
               <set>AlignCenter</set>
@@ -1640,7 +1581,7 @@ font-weight: bold;</string>
             </column>
             <column>
              <property name="text">
-              <string>Giờ hẹn</string>
+              <string>Mục đích</string>
              </property>
              <property name="textAlignment">
               <set>AlignCenter</set>
@@ -1648,7 +1589,7 @@ font-weight: bold;</string>
             </column>
             <column>
              <property name="text">
-              <string>Mục đích</string>
+              <string/>
              </property>
              <property name="textAlignment">
               <set>AlignCenter</set>
@@ -1658,6 +1599,90 @@ font-weight: bold;</string>
           </item>
          </layout>
         </widget>
+       </widget>
+       <widget class="QWidget" name="">
+        <property name="geometry">
+         <rect>
+          <x>41</x>
+          <y>320</y>
+          <width>921</width>
+          <height>37</height>
+         </rect>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_10">
+         <item row="0" column="0">
+          <widget class="QPushButton" name="btn_edit">
+           <property name="styleSheet">
+            <string notr="true">background-color: #337aff;
+font-weight: bold;
+color: #fff;</string>
+           </property>
+           <property name="text">
+            <string>Sửa</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QPushButton" name="btn_cham_soc_suc_khoe">
+           <property name="styleSheet">
+            <string notr="true">background-color: #ff33dd;
+font-weight: bold;
+color: #fff;</string>
+           </property>
+           <property name="text">
+            <string>Chăm sóc sức khỏe</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="2">
+          <widget class="QPushButton" name="btn_che_do_an_uong">
+           <property name="styleSheet">
+            <string notr="true">background-color: #ffd433;
+font-weight: bold;
+color: #fff;</string>
+           </property>
+           <property name="text">
+            <string>Chế độ ăn uống</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="3">
+          <widget class="QPushButton" name="btn_hoat_dong">
+           <property name="styleSheet">
+            <string notr="true">background-color: #8d33ff;
+font-weight: bold;
+color: #fff;</string>
+           </property>
+           <property name="text">
+            <string>Hoạt động</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="4">
+          <widget class="QPushButton" name="btn_chi_phi">
+           <property name="styleSheet">
+            <string notr="true">background-color: #363636;
+font-weight: bold;
+color: #fff;</string>
+           </property>
+           <property name="text">
+            <string>Chi phí</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="5">
+          <widget class="QPushButton" name="btn_lich_hen">
+           <property name="styleSheet">
+            <string notr="true">background-color: #ff6133;
+font-weight: bold;
+color: #fff;</string>
+           </property>
+           <property name="text">
+            <string>Lịch hẹn</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </widget>
       </widget>
       <widget class="QWidget" name="page_2">
@@ -1675,6 +1700,9 @@ font-weight: bold;</string>
           <widget class="QLineEdit" name="keyword_search_customer">
            <property name="styleSheet">
             <string notr="true">background-color: #fff;</string>
+           </property>
+           <property name="placeholderText">
+            <string>Nhập tên, số điện thoại</string>
            </property>
           </widget>
          </item>
@@ -1802,6 +1830,12 @@ font-weight: bold;</string>
             </property>
             <attribute name="horizontalHeaderCascadingSectionResizes">
              <bool>false</bool>
+            </attribute>
+            <attribute name="horizontalHeaderDefaultSectionSize">
+             <number>150</number>
+            </attribute>
+            <attribute name="horizontalHeaderMinimumSectionSize">
+             <number>150</number>
             </attribute>
             <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
              <bool>false</bool>
@@ -2036,17 +2070,11 @@ font-weight: bold;</string>
          </item>
          <item>
           <widget class="QDateEdit" name="date_from">
-           <property name="minimumSize">
-            <size>
-             <width>180</width>
-             <height>0</height>
-            </size>
+           <property name="displayFormat">
+            <string>dd/MM/yyyy</string>
            </property>
-           <property name="maximumSize">
-            <size>
-             <width>200</width>
-             <height>16777215</height>
-            </size>
+           <property name="calendarPopup">
+            <bool>true</bool>
            </property>
           </widget>
          </item>
@@ -2065,11 +2093,11 @@ font-weight: bold;</string>
          </item>
          <item>
           <widget class="QDateEdit" name="date_to">
-           <property name="maximumSize">
-            <size>
-             <width>200</width>
-             <height>16777215</height>
-            </size>
+           <property name="displayFormat">
+            <string>dd/MM/yyyy</string>
+           </property>
+           <property name="calendarPopup">
+            <bool>true</bool>
            </property>
           </widget>
          </item>

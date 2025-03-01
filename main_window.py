@@ -11,8 +11,13 @@ from views.dialog.add_health_dialog import AddHealthDialog
 from views.dialog.add_feeding_dialog import AddFeedingDialog
 from views.dialog.add_exercise_dialog import AddExerciseDialog
 from views.dialog.add_customer_dialog import AddCustomerDialog
+from views.dialog.add_expense_dialog import AddExpenseDialog
+from views.dialog.add_appointment_dialog import AddAppointmentDialog
+from views.dialog.customer_detail_dialog import CustomerDetailDialog
 from utils.helpers import format_vnd
 from datetime import datetime
+from functools import partial
+from PyQt6.QtCore import QDate
 
 class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self):
@@ -22,6 +27,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.pages = self.stackedWidget
         self.pages.setCurrentIndex(1)
         self.pet_id = 0
+        self.customer_id = 0
 
         # change window
         self.btn_menu_1.toggled.connect(
@@ -38,7 +44,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.exercise_table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
         self.expense_table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
         self.appointment_table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
-        self.customer_table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
+        self.customer_table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.ResizeToContents)
         self.pet_table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.ResizeToContents)
         self.total_expense_table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
         
@@ -53,6 +59,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.btn_cham_soc_suc_khoe.clicked.connect(self.open_add_health_dialog)
         self.btn_che_do_an_uong.clicked.connect(self.open_add_feeding_dialog)
         self.btn_hoat_dong.clicked.connect(self.open_add_exercise_dialog)
+        self.btn_chi_phi.clicked.connect(self.open_add_expense_dialog)
+        self.btn_lich_hen.clicked.connect(self.open_add_appointment_dialog)
         
     def do_change_page(self, btn):
         """
@@ -84,8 +92,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         if pet:
             self.pet_id = pet['id']
-            self.lbl_ten_kh.setText(pet['customer_name'])
-            self.lbl_sdt.setText(pet['phone_number'])
+            self.customer_id = pet['customer_id']
+            if not id:
+                self.lbl_ten_kh.setText(pet['customer_name'])
+                self.lbl_sdt.setText(pet['phone_number'])
             self.lbl_ma_so.setText(pet['pet_no'])
             self.lbl_ten.setText(pet['name'])
             self.lbl_giong_loai.setText(pet['breed'])
@@ -105,35 +115,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
             self.show_exercise_list()
 
-            self.expense_table.setRowCount(0)
-            query = "SELECT * FROM expense WHERE pet_id = %s"
-            expense = execute_query(query, (pet['id']))
+            self.show_expense_list()
 
-            if expense:
-                for index, item in enumerate(expense):
-                    data = [index + 1, item['expense_type'], item['expense_date'].strftime("%d/%m/%Y") if item['expense_date'] else item['created_at'].strftime("%d/%m/%Y"), format_vnd(item['amount']), item['description']]
-                    self.show_expense_list(data=data)
-
-            query = "SELECT * FROM appointment WHERE pet_id = %s"
-            appointment = execute_query(query, (pet['id']))
-
-            self.appointment_table.setRowCount(0)
-            if appointment:
-                for index, item in enumerate(appointment):
-                    data = [index + 1, item['appointment_date'].strftime("%d/%m/%Y") if item['appointment_date'] else '', (datetime.min + item['appointment_time']).time().strftime("%H:%M"), item['purpose']]
-                    self.show_appointment_list(data=data)
-
-            # query = "SELECT * FROM feeding WHERE pet_id = %s"
-            # feeding = execute_query(query, (pet[0]))
-
-            # query = "SELECT * FROM exercise WHERE pet_id = %s"
-            # exercise = execute_query(query, (pet[0]))
-
-            # query = "SELECT * FROM expense WHERE pet_id = %s"
-            # expense = execute_query(query, (pet[0]))
-
-            # query = "SELECT * FROM appointment WHERE pet_id = %s"
-            # appointment = execute_query(query, (pet[0]))
+            self.show_appointment_list()
         else: 
             QMessageBox.warning(self, "Search Failed", "Không tìm thấy thú cưng.")
 
@@ -159,7 +143,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                     item.setFlags(Qt.ItemFlag.ItemIsSelectable | Qt.ItemFlag.ItemIsEnabled) 
                     self.health_table.setItem(new_row_count - 1, column, item)
 
-                btn_widget = self.add_tn_edit_delete(index, id, 'health')
+                btn_widget = self.add_btn_edit_delete(index, id, 'health')
                 
                 self.health_table.setCellWidget(index, 5, btn_widget)
 
@@ -185,7 +169,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                     item.setFlags(Qt.ItemFlag.ItemIsSelectable | Qt.ItemFlag.ItemIsEnabled) 
                     self.feeding_table.setItem(new_row_count - 1, column, item)
 
-                btn_widget = self.add_tn_edit_delete(index, id, 'feeding')
+                btn_widget = self.add_btn_edit_delete(index, id, 'feeding')
                 
                 self.feeding_table.setCellWidget(index, 4, btn_widget)
 
@@ -211,35 +195,61 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                     item.setFlags(Qt.ItemFlag.ItemIsSelectable | Qt.ItemFlag.ItemIsEnabled) 
                     self.exercise_table.setItem(new_row_count - 1, column, item)
 
-                btn_widget = self.add_tn_edit_delete(index, id, 'exercise')
+                btn_widget = self.add_btn_edit_delete(index, id, 'exercise')
                 
                 self.exercise_table.setCellWidget(index, 4, btn_widget)
 
-    def show_expense_list(self, data):
-        """
-        Show exercise data in QTableWidget from database
-        """
-        new_row_count = self.expense_table.rowCount() + 1
-        self.expense_table.setRowCount(new_row_count)
-        self.expense_table.verticalHeader().setVisible(False)
+    def show_expense_list(self):
+        self.expense_table.setRowCount(0)
+        query = "SELECT * FROM expense WHERE pet_id = %s"
+        expense = execute_query(query, (self.pet_id))
 
-        for column, row_item in enumerate(data):
-            item = QTableWidgetItem(str(row_item))
-            item.setFlags(Qt.ItemFlag.ItemIsSelectable | Qt.ItemFlag.ItemIsEnabled) 
-            self.expense_table.setItem(new_row_count - 1, column, item)
+        if expense:
+            for index, item in enumerate(expense):
+                data = [index + 1, item['expense_type'], item['expense_date'].strftime("%d/%m/%Y") + ' ' + (datetime.min + item['expense_time']).time().strftime("%H:%M"), format_vnd(item['amount']), item['description']]
+                id = item['id']
 
-    def show_appointment_list(self, data):
-        """
-        Show appointment data in QTableWidget from database
-        """
-        new_row_count = self.appointment_table.rowCount() + 1
-        self.appointment_table.setRowCount(new_row_count)
-        self.appointment_table.verticalHeader().setVisible(False)
+                """
+                Show exercise data in QTableWidget from database
+                """
+                new_row_count = self.expense_table.rowCount() + 1
+                self.expense_table.setRowCount(new_row_count)
+                self.expense_table.verticalHeader().setVisible(False)
 
-        for column, row_item in enumerate(data):
-            item = QTableWidgetItem(str(row_item))
-            item.setFlags(Qt.ItemFlag.ItemIsSelectable | Qt.ItemFlag.ItemIsEnabled) 
-            self.appointment_table.setItem(new_row_count - 1, column, item)
+                for column, row_item in enumerate(data):
+                    item = QTableWidgetItem(str(row_item))
+                    item.setFlags(Qt.ItemFlag.ItemIsSelectable | Qt.ItemFlag.ItemIsEnabled) 
+                    self.expense_table.setItem(new_row_count - 1, column, item)
+
+                btn_widget = self.add_btn_edit_delete(index, id, 'expense')
+                
+                self.expense_table.setCellWidget(index, 5, btn_widget)
+
+    def show_appointment_list(self):
+        self.appointment_table.setRowCount(0)
+        query = "SELECT * FROM appointment WHERE pet_id = %s"
+        appointment = execute_query(query, (self.pet_id))
+
+        if appointment:
+            for index, item in enumerate(appointment):
+                data = [index + 1, item['appointment_date'].strftime("%d/%m/%Y") + ' ' + (datetime.min + item['appointment_time']).time().strftime("%H:%M"), item['purpose']]
+                id = item['id']
+
+                """
+                Show appointment data in QTableWidget from database
+                """
+                new_row_count = self.appointment_table.rowCount() + 1
+                self.appointment_table.setRowCount(new_row_count)
+                self.appointment_table.verticalHeader().setVisible(False)
+
+                for column, row_item in enumerate(data):
+                    item = QTableWidgetItem(str(row_item))
+                    item.setFlags(Qt.ItemFlag.ItemIsSelectable | Qt.ItemFlag.ItemIsEnabled) 
+                    self.appointment_table.setItem(new_row_count - 1, column, item)
+
+                btn_widget = self.add_btn_edit_delete(index, id, 'appointment')
+                
+                self.appointment_table.setCellWidget(index, 3, btn_widget)
 
     def show_pet_list(self):
         self.pet_table.setRowCount(0)
@@ -256,6 +266,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if pets:
             for index, item in enumerate(pets):
                 data = [index + 1, item['customer_name'], item['phone_number'], item['pet_no'], item['name'], item['breed'], item['birth_date'].strftime("%d/%m/%Y") if item['birth_date'] else '', item['color'], item['weight'], item['height'], item['length'], item['special_features']]
+                id = item['id']
+
                 """
                 Show pet data in QTableWidget from database
                 """
@@ -267,6 +279,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                     item = QTableWidgetItem(str(row_item))
                     item.setFlags(Qt.ItemFlag.ItemIsSelectable | Qt.ItemFlag.ItemIsEnabled)
                     self.pet_table.setItem(new_row_count - 1, column, item)
+
+                btn_widget = self.add_btn_edit_delete(index, id, 'pets')
+                
+                self.pet_table.setCellWidget(index, 12, btn_widget)
 
     def show_total_expense(self, type = 1):
         self.total_expense_table.setRowCount(0)
@@ -386,6 +402,38 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             if exercise:
                 self.show_exercise_list()
 
+    def open_add_expense_dialog(self):
+        if self.pet_id:
+            add_expense_dialog = AddExpenseDialog(self)
+            result = add_expense_dialog.exec()
+
+            if result == AddExpenseDialog.accepted:
+                pass
+
+    def add_expense(self, add_data):
+        if self.pet_id:
+            query = "INSERT INTO expense (customer_id, pet_id, expense_type, expense_date, expense_time, amount, description) VALUES (%s, %s, %s, %s, %s, %s, %s)"
+            exercise = execute_query(query, (self.customer_id, self.pet_id, add_data['expense_type'], add_data['expense_date'], add_data['expense_time'], add_data['amount'], add_data['description']))
+            
+            if exercise:
+                self.show_expense_list()
+
+    def open_add_appointment_dialog(self):
+        if self.pet_id:
+            add_appointment_dialog = AddAppointmentDialog(self)
+            result = add_appointment_dialog.exec()
+
+            if result == AddAppointmentDialog.accepted:
+                pass
+
+    def add_appointment(self, add_data):
+        if self.pet_id:
+            query = "INSERT INTO appointment (customer_id, pet_id, appointment_date, appointment_time, purpose) VALUES (%s, %s, %s, %s, %s)"
+            exercise = execute_query(query, (self.customer_id, self.pet_id, add_data['appointment_date'], add_data['appointment_time'], add_data['purpose']))
+            
+            if exercise:
+                self.show_appointment_list()
+
     # Customer page
     def show_customer_list(self):
         self.customer_table.setRowCount(0)
@@ -434,7 +482,24 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                         line-height: 25px;
                     }
                 """)
-                add_btn.clicked.connect(lambda: self.open_add_pet_dialog(id))
+                add_btn.clicked.connect(partial(self.open_add_pet_dialog, id))
+
+                detail_btn = QPushButton("Chi tết")
+                detail_btn.setProperty("row", index)
+                detail_btn.setStyleSheet("""
+                    QPushButton {
+                        background-color: #0a31d1; 
+                        color: white; 
+                        border-radius: 5px;
+                        padding: 0 10px;
+                        font-weight: bold;
+                        margin: 5px;
+                        font-size: 12px;
+                        height: 25px;
+                        line-height: 25px;
+                    }
+                """)
+                detail_btn.clicked.connect(partial(self.open_customer_detail_dialog, id))
                 
                 edit_btn = QPushButton("Sửa")
                 edit_btn.setProperty("row", index)
@@ -471,6 +536,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 delete_btn.clicked.connect(lambda: self.delete_row(id, 'customers'))
                 
                 btn_layout.addWidget(add_btn)
+                btn_layout.addWidget(detail_btn)
                 btn_layout.addWidget(edit_btn)
                 btn_layout.addWidget(delete_btn)
                 
@@ -490,7 +556,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if customer:
             self.show_customer_list()
 
-    def add_tn_edit_delete(self, index, id, table):
+    def open_customer_detail_dialog(self, customer_id):
+        customer_detail_dialog = CustomerDetailDialog(self, customer_id)
+        result = customer_detail_dialog.exec()
+
+        if result == AddCustomerDialog.accepted:
+            pass
+
+    def add_btn_edit_delete(self, index, id, table):
         btn_widget = QWidget()
         btn_layout = QHBoxLayout(btn_widget)
         btn_layout.setContentsMargins(0, 0, 0, 0)
@@ -557,4 +630,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.show_feeding_list()
             elif table == "exercise":
                 self.show_exercise_list()
+            elif table == "expense":
+                self.show_expense_list()
+            elif table == "appointment":
+                self.show_appointment_list()
+            elif table == "pets":
+                self.show_pet_list()
     
