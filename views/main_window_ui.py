@@ -277,6 +277,24 @@ class Ui_MainWindow(object):
         self.verticalLayout.addWidget(self.btn_menu_4)
         spacerItem = QtWidgets.QSpacerItem(20, 574, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
         self.verticalLayout.addItem(spacerItem)
+        self.logoutBtn = QtWidgets.QPushButton(parent=self.menuWidget)
+        self.logoutBtn.setMinimumSize(QtCore.QSize(0, 40))
+        self.logoutBtn.setMaximumSize(QtCore.QSize(16777215, 35))
+        self.logoutBtn.setStyleSheet("#logoutBtn {\n"
+"    color: #943e3e;\n"
+"    text-align: center;\n"
+"    padding-left: 0;\n"
+"}\n"
+"\n"
+"#logoutBtn:pressed {\n"
+"    padding-left: 10px;\n"
+"}\n"
+"")
+        icon1 = QtGui.QIcon()
+        icon1.addPixmap(QtGui.QPixmap(":/icon/icon/logout-48.ico"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.On)
+        self.logoutBtn.setIcon(icon1)
+        self.logoutBtn.setObjectName("logoutBtn")
+        self.verticalLayout.addWidget(self.logoutBtn)
         self.exitBtn = QtWidgets.QPushButton(parent=self.menuWidget)
         self.exitBtn.setMinimumSize(QtCore.QSize(0, 40))
         self.exitBtn.setMaximumSize(QtCore.QSize(16777215, 35))
@@ -290,8 +308,6 @@ class Ui_MainWindow(object):
 "    padding-left: 10px;\n"
 "}\n"
 "")
-        icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap(":/icon/icon/logout-48.ico"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.On)
         self.exitBtn.setIcon(icon1)
         self.exitBtn.setObjectName("exitBtn")
         self.exitBtn.clicked.connect(MainWindow.close)
@@ -1025,6 +1041,7 @@ class Ui_MainWindow(object):
         self.btn_menu_2.setText(_translate("MainWindow", "Danh sách khách hàng"))
         self.btn_menu_3.setText(_translate("MainWindow", "Danh sách thú cưng"))
         self.btn_menu_4.setText(_translate("MainWindow", "Thống kê doanh thu"))
+        self.logoutBtn.setText(_translate("MainWindow", "Đăng xuất"))
         self.exitBtn.setText(_translate("MainWindow", "Exit"))
         self.label_4.setText(_translate("MainWindow", "Tìm kiếm"))
         self.keyword_search_pet.setPlaceholderText(_translate("MainWindow", "Nhập mã thú cưng"))

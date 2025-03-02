@@ -67,6 +67,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.btn_hoat_dong.clicked.connect(self.open_add_exercise_dialog)
         self.btn_chi_phi.clicked.connect(self.open_add_expense_dialog)
         self.btn_lich_hen.clicked.connect(self.open_add_appointment_dialog)
+
+        self.logoutBtn.clicked.connect(self.logout)
         
     def do_change_page(self, btn):
         """
@@ -805,4 +807,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             if appointment:
                 self.show_appointment_list()
                 self.dialog_success("Cập nhật lịch hẹn thành công!")
+
+    def logout(self):
+        from login_window import LoginWindow
+        self.log_window = LoginWindow()
+        self.log_window.show()
+        self.close()
     
