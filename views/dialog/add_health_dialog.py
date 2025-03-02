@@ -21,5 +21,5 @@ class AddHealthDialog(QDialog, Ui_AddHealthDialog):
         }
 
         if self.parent:
-            self.parent.add_health(add_data)
             self.close()
+            self.parent.add_health(add_data)

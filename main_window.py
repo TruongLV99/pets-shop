@@ -343,7 +343,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 pet_no = f"P{pet_id:06d}"
                 query_update = "UPDATE pets SET pet_no = %s WHERE id = %s"
                 execute_query(query_update, (pet_no, pet_id))
-                # QMessageBox.information(self, "Thành công", "Cập nhật thú cưng thành công!")
+                self.dialog_success("Thêm thú cưng thành công!")
 
     def update_pet(self, updated_data):
         if self.pet_id:
@@ -352,7 +352,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             
             if pet:
                 self.search_pet(updated_data['id'])
-                # QMessageBox.information(self, "Thành công", "Cập nhật thú cưng thành công!")
+                self.dialog_success("Cập nhật thú cưng thành công!")
 
     def open_add_health_dialog(self):
         if self.pet_id:
@@ -369,6 +369,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             
             if health:
                 self.show_health_list()
+                self.dialog_success("Thêm chăm sóc sức khỏe thành công!")
 
     def open_add_feeding_dialog(self):
         if self.pet_id:
@@ -385,6 +386,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             
             if feeding:
                 self.show_feeding_list()
+                self.dialog_success("Thêm chế độ ăn uống thành công!")
 
     def open_add_exercise_dialog(self):
         if self.pet_id:
@@ -401,6 +403,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             
             if exercise:
                 self.show_exercise_list()
+                self.dialog_success("Thêm hoạt động thành công!")
 
     def open_add_expense_dialog(self):
         if self.pet_id:
@@ -417,6 +420,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             
             if exercise:
                 self.show_expense_list()
+                self.dialog_success("Thêm chi phí thành công!")
 
     def open_add_appointment_dialog(self):
         if self.pet_id:
@@ -433,6 +437,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             
             if exercise:
                 self.show_appointment_list()
+                self.dialog_success("Thêm lịch hẹn thành công!")
 
     # Customer page
     def show_customer_list(self):
@@ -555,6 +560,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         if customer:
             self.show_customer_list()
+            self.dialog_success("Thêm khác hàng thành công!")
 
     def open_customer_detail_dialog(self, customer_id):
         customer_detail_dialog = CustomerDetailDialog(self, customer_id)
@@ -610,13 +616,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def delete_row(self, id, table):
         button = self.sender()
         row = button.property("row")
-        
-        confirm = QMessageBox.question(
-            self, 
-            "Xác nhận xóa", 
-            f"Bạn có chắc chắn muốn xóa dòng {row + 1}?",
-            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No
-        )
+
+        msg_box = QMessageBox()
+        msg_box.setWindowTitle("Xác nhận")
+        msg_box.setIcon(QMessageBox.Icon.Question) 
+        msg_box.setText(f"Bạn có chắc chắn muốn xóa dòng {row + 1}?")
+        msg_box.setStandardButtons(QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
+
+        msg_box.setStyleSheet("QPushButton { background-color: none; color: white; }")
+        confirm = msg_box.exec() 
         
         if confirm == QMessageBox.StandardButton.Yes:
             query = f"Delete FROM {table} where id = %s"
@@ -636,4 +644,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.show_appointment_list()
             elif table == "pets":
                 self.show_pet_list()
+
+    def dialog_success(self, message):
+        print(message)
+        msg_box = QMessageBox()
+        msg_box.setWindowTitle("Thông báo")
+        msg_box.setIcon(QMessageBox.Icon.Information)
+        msg_box.setText(message)
+        msg_box.setStyleSheet("QPushButton { background-color: none; color: white; }")
+        msg_box.exec()
     

@@ -24,6 +24,7 @@ class LoginWindow(QMainWindow, Ui_LoginWindow):
 
         if user:
             if self.check_password(password, user['password']):
+                QMessageBox.information(self, "Thông báo", "Đăng nhập thành công!")
                 self.main_window = MainWindow()
                 self.main_window.show()
                 self.close()

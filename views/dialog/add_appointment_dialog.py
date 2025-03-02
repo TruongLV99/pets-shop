@@ -21,5 +21,5 @@ class AddAppointmentDialog(QDialog, Ui_AddAppointmentDialog):
         }
 
         if self.parent:
-            self.parent.add_appointment(add_data)
             self.close()
+            self.parent.add_appointment(add_data)

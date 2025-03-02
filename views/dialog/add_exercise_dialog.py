@@ -21,5 +21,5 @@ class AddExerciseDialog(QDialog, Ui_AddExerciseDialog):
         }
 
         if self.parent:
-            self.parent.add_exercise(add_data)
             self.close()
+            self.parent.add_exercise(add_data)

@@ -21,5 +21,5 @@ class AddFeedingDialog(QDialog, Ui_AddFeedingDialog):
         }
 
         if self.parent:
-            self.parent.add_feeding(add_data)
             self.close()
+            self.parent.add_feeding(add_data)

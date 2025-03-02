@@ -38,5 +38,5 @@ class EditPetDialog(QDialog, Ui_EditPetDialog):
         }
 
         if self.parent:
-            self.parent.update_pet(updated_data)
             self.close()
+            self.parent.update_pet(updated_data)

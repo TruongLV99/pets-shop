@@ -1600,7 +1600,7 @@ font-weight: bold;</string>
          </layout>
         </widget>
        </widget>
-       <widget class="QWidget" name="">
+       <widget class="QWidget" name="layoutWidget">
         <property name="geometry">
          <rect>
           <x>41</x>

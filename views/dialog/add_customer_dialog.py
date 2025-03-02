@@ -19,5 +19,5 @@ class AddCustomerDialog(QDialog, Ui_AddCustomerDialog):
         }
 
         if self.parent:
-            self.parent.add_customer(add_data)
             self.close()
+            self.parent.add_customer(add_data)

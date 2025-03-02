@@ -23,5 +23,5 @@ class AddExpenseDialog(QDialog, Ui_AddExpenseDialog):
         }
 
         if self.parent:
-            self.parent.add_expense(add_data)
             self.close()
+            self.parent.add_expense(add_data)

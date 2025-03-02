@@ -28,5 +28,5 @@ class AddPetDialog(QDialog, Ui_AddPetDialog):
         }
 
         if self.parent:
-            self.parent.add_pet(add_data)
             self.close()
+            self.parent.add_pet(add_data)
