@@ -13,6 +13,7 @@ class AddPetDialog(QDialog, Ui_AddPetDialog):
         self.customer_id = customer_id
 
         self.btn_add_pet.clicked.connect(self.add_data)
+        self.btn_cancel.clicked.connect(self.closeEvt)
 
     def add_data(self):
         add_data = {
@@ -30,3 +31,6 @@ class AddPetDialog(QDialog, Ui_AddPetDialog):
         if self.parent:
             self.close()
             self.parent.add_pet(add_data)
+
+    def closeEvt(self):
+        self.close()

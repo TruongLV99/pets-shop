@@ -12,6 +12,7 @@ class AddAppointmentDialog(QDialog, Ui_AddAppointmentDialog):
         self.parent = parent
 
         self.btn_add_appointment.clicked.connect(self.add_data)
+        self.btn_cancel.clicked.connect(self.closeEvt)
 
     def add_data(self):
         add_data = {
@@ -23,3 +24,6 @@ class AddAppointmentDialog(QDialog, Ui_AddAppointmentDialog):
         if self.parent:
             self.close()
             self.parent.add_appointment(add_data)
+
+    def closeEvt(self):
+        self.close()

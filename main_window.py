@@ -14,6 +14,12 @@ from views.dialog.add_customer_dialog import AddCustomerDialog
 from views.dialog.add_expense_dialog import AddExpenseDialog
 from views.dialog.add_appointment_dialog import AddAppointmentDialog
 from views.dialog.customer_detail_dialog import CustomerDetailDialog
+from views.dialog.edit_customer_dialog import EditCustomerDialog
+from views.dialog.edit_feeding_dialog import EditFeedingDialog
+from views.dialog.edit_exercise_dialog import EditExerciseDialog
+from views.dialog.edit_health_dialog import EditHealthDialog
+from views.dialog.edit_expense_dialog import EditExpenseDialog
+from views.dialog.edit_appointment_dialog import EditAppointmentDialog
 from utils.helpers import format_vnd
 from datetime import datetime
 from functools import partial
@@ -55,7 +61,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.btn_get_all_expense.clicked.connect(lambda: self.show_total_expense(1))
         self.btn_add_customer.clicked.connect(self.open_add_customer_dialog)
 
-        self.btn_edit.clicked.connect(self.open_edit_pet_dialog)
+        self.btn_edit.clicked.connect(lambda: self.open_edit_pet_dialog(self.pet_id))
         self.btn_cham_soc_suc_khoe.clicked.connect(self.open_add_health_dialog)
         self.btn_che_do_an_uong.clicked.connect(self.open_add_feeding_dialog)
         self.btn_hoat_dong.clicked.connect(self.open_add_exercise_dialog)
@@ -118,8 +124,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.show_expense_list()
 
             self.show_appointment_list()
-        else: 
-            QMessageBox.warning(self, "Search Failed", "Không tìm thấy thú cưng.")
+        else:
+            self.dialog_success("Không tìm thấy thú cưng!")
 
     def show_health_list(self):
         self.health_table.setRowCount(0)
@@ -323,13 +329,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if result == AddPetDialog.accepted:
             pass  
 
-    def open_edit_pet_dialog(self):
-        if self.pet_id:
+    def open_edit_pet_dialog(self, id, reloadList = False):
+        if id:
             query = "SELECT * FROM pets WHERE id = %s"
-            pet = execute_query(query, (self.pet_id), False)
+            pet = execute_query(query, (id), False)
 
             if pet: 
-                edit_pet_dialog = EditPetDialog(self, pet)
+                edit_pet_dialog = EditPetDialog(self, pet, reloadList)
                 result = edit_pet_dialog.exec()
 
                 if result == EditPetDialog.accepted:
@@ -345,13 +351,17 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 execute_query(query_update, (pet_no, pet_id))
                 self.dialog_success("Thêm thú cưng thành công!")
 
-    def update_pet(self, updated_data):
-        if self.pet_id:
+    def update_pet(self, updated_data, reloadList = False):
+        if self.pet_id or reloadList:
             query = "UPDATE pets SET name = %s, breed = %s, birth_date = %s, color = %s, weight = %s, height = %s, length = %s, special_features = %s WHERE id = %s"
             pet = execute_query(query, (updated_data['name'], updated_data['breed'], updated_data['birth_date'], updated_data['color'], updated_data['weight'], updated_data['height'], updated_data['length'], updated_data['special_features'], updated_data['id']))
-            
+
             if pet:
-                self.search_pet(updated_data['id'])
+                if reloadList:
+                    self.show_pet_list()
+                else:
+                    self.search_pet(updated_data['id'])
+
                 self.dialog_success("Cập nhật thú cưng thành công!")
 
     def open_add_health_dialog(self):
@@ -439,7 +449,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.show_appointment_list()
                 self.dialog_success("Thêm lịch hẹn thành công!")
 
-    # Customer page
+    # Customer
     def show_customer_list(self):
         self.customer_table.setRowCount(0)
         keyword = self.keyword_search_customer.text()
@@ -521,7 +531,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                         line-height: 25px;
                     }
                 """)
-                # edit_btn.clicked.connect(self.edit_row)
+                edit_btn.clicked.connect(partial(self.open_edit_customer_dialog, id))
                 
                 delete_btn = QPushButton("Xóa")
                 delete_btn.setProperty("row", index)
@@ -560,7 +570,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         if customer:
             self.show_customer_list()
-            self.dialog_success("Thêm khác hàng thành công!")
+            self.dialog_success("Thêm khách hàng thành công!")
 
     def open_customer_detail_dialog(self, customer_id):
         customer_detail_dialog = CustomerDetailDialog(self, customer_id)
@@ -568,6 +578,27 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         if result == AddCustomerDialog.accepted:
             pass
+
+    def open_edit_customer_dialog(self, id):
+        query = "SELECT * FROM customers WHERE id = %s"
+        customer = execute_query(query, (id), False)
+
+        if customer: 
+            add_customer_dialog = EditCustomerDialog(self, customer)
+            result = add_customer_dialog.exec()
+
+            if result == EditCustomerDialog.accepted:
+                pass
+
+    def update_customer(self, updated_data):
+        query = "UPDATE customers SET name = %s, phone_number = %s where id = %s"
+        customer = execute_query(query, (updated_data['name'], updated_data['phone_number'], updated_data['id']))
+        
+        if customer:
+            self.show_customer_list()
+            self.dialog_success("Cập nhật khách hàng thành công!")
+
+    # End customer
 
     def add_btn_edit_delete(self, index, id, table):
         btn_widget = QWidget()
@@ -589,7 +620,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 line-height: 25px;
             }
         """)
-        # edit_btn.clicked.connect(self.edit_row)
+        edit_btn.clicked.connect(partial(self.edit_row, id, table))
         
         delete_btn = QPushButton("Xóa")
         delete_btn.setProperty("row", index)
@@ -612,6 +643,20 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         btn_layout.addWidget(delete_btn)
 
         return btn_widget
+    
+    def edit_row(self, id, table):
+            if table == "pets":
+                self.open_edit_pet_dialog(id, True)
+            elif table == "health":
+                self.open_edit_health_dialog(id)
+            elif table == "feeding":
+                self.open_edit_feeding_dialog(id)
+            elif table == "exercise":
+                self.open_edit_exercise_dialog(id)
+            elif table == "expense":
+                self.open_edit_expense_dialog(id)
+            elif table == "appointment":
+                self.open_edit_appointment_dialog(id)
     
     def delete_row(self, id, table):
         button = self.sender()
@@ -646,11 +691,118 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.show_pet_list()
 
     def dialog_success(self, message):
-        print(message)
         msg_box = QMessageBox()
         msg_box.setWindowTitle("Thông báo")
         msg_box.setIcon(QMessageBox.Icon.Information)
         msg_box.setText(message)
         msg_box.setStyleSheet("QPushButton { background-color: none; color: white; }")
         msg_box.exec()
+
+
+    # update infor
+    def open_edit_health_dialog(self, id):
+        if id:
+            query = "SELECT * FROM health WHERE id = %s"
+            health = execute_query(query, (id), False)
+
+            if health: 
+                edit_health_dialog = EditHealthDialog(self, health)
+                result = edit_health_dialog.exec()
+
+                if result == EditHealthDialog.accepted:
+                    pass
+
+    def update_health(self, updated_data):
+        if self.pet_id:
+            query = "UPDATE health SET vaccine_name = %s, vaccination_date = %s, health_check_date = %s, health_condition = %s WHERE id = %s"
+            health = execute_query(query, (updated_data['vaccine_name'], updated_data['vaccination_date'], updated_data['health_check_date'], updated_data['health_condition'], updated_data['id']))
+
+            if health:
+                self.show_health_list()
+                self.dialog_success("Cập nhật chăm sóc sức khỏe thành công!")
+
+    def open_edit_feeding_dialog(self, id):
+        if id:
+            query = "SELECT * FROM feeding WHERE id = %s"
+            feeding = execute_query(query, (id), False)
+
+            if feeding: 
+                edit_feeding_dialog = EditFeedingDialog(self, feeding)
+                result = edit_feeding_dialog.exec()
+
+                if result == EditFeedingDialog.accepted:
+                    pass
+
+    def update_feeding(self, updated_data):
+        if self.pet_id:
+            query = "UPDATE feeding SET feeding_date = %s, feeding_time = %s, food_type = %s, quantity = %s WHERE id = %s"
+            feeding = execute_query(query, (updated_data['feeding_date'], updated_data['feeding_time'], updated_data['food_type'], updated_data['quantity'], updated_data['id']))
+
+            if feeding:
+                self.show_feeding_list()
+                self.dialog_success("Cập nhật chế độ ăn uống thành công!")
+
+    def open_edit_exercise_dialog(self, id):
+        if id:
+            query = "SELECT * FROM exercise WHERE id = %s"
+            exercise = execute_query(query, (id), False)
+
+            if exercise: 
+                edit_exercise_dialog = EditExerciseDialog(self, exercise)
+                result = edit_exercise_dialog.exec()
+
+                if result == EditExerciseDialog.accepted:
+                    pass
+
+    def update_exercise(self, updated_data):
+        if self.pet_id:
+            query = "UPDATE exercise SET exercise_date = %s, exercise_time = %s, activity_type = %s, duration = %s WHERE id = %s"
+            feeding = execute_query(query, (updated_data['exercise_date'], updated_data['exercise_time'], updated_data['activity_type'], updated_data['duration'], updated_data['id']))
+
+            if feeding:
+                self.show_exercise_list()
+                self.dialog_success("Cập nhật hoạt động thành công!")
+
+
+    def open_edit_expense_dialog(self, id):
+        if id:
+            query = "SELECT * FROM expense WHERE id = %s"
+            expense = execute_query(query, (id), False)
+
+            if expense: 
+                edit_expense_dialog = EditExpenseDialog(self, expense)
+                result = edit_expense_dialog.exec()
+
+                if result == EditExpenseDialog.accepted:
+                    pass
+
+    def update_expense(self, updated_data):
+        if self.pet_id:
+            query = "UPDATE expense SET expense_type = %s, expense_date = %s, expense_time = %s, amount = %s, description = %s WHERE id = %s"
+            expense = execute_query(query, (updated_data['expense_type'], updated_data['expense_date'], updated_data['expense_time'], updated_data['amount'], updated_data['description'], updated_data['id']))
+
+            if expense:
+                self.show_expense_list()
+                self.dialog_success("Cập nhật chi phí thành công!")
+
+    def open_edit_appointment_dialog(self, id):
+        if id:
+            query = "SELECT * FROM appointment WHERE id = %s"
+            appointment = execute_query(query, (id), False)
+
+            if appointment: 
+                edit_appointment_dialog = EditAppointmentDialog(self, appointment)
+                result = edit_appointment_dialog.exec()
+
+                if result == EditAppointmentDialog.accepted:
+                    pass
+
+    def update_appointment(self, updated_data):
+        if self.pet_id:
+            query = "UPDATE appointment SET appointment_date = %s, appointment_time = %s, purpose = %s WHERE id = %s"
+            appointment = execute_query(query, (updated_data['appointment_date'], updated_data['appointment_time'], updated_data['purpose'], updated_data['id']))
+
+            if appointment:
+                self.show_appointment_list()
+                self.dialog_success("Cập nhật lịch hẹn thành công!")
     

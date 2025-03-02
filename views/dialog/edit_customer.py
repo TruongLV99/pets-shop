@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file 'add_customer.ui'
+# Form implementation generated from reading ui file 'edit_customer.ui'
 #
 # Created by: PyQt6 UI code generator 6.8.1
 #
@@ -9,13 +9,13 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 
 
-class Ui_AddCustomerDialog(object):
-    def setupUi(self, AddCustomerDialog):
-        AddCustomerDialog.setObjectName("AddCustomerDialog")
-        AddCustomerDialog.resize(330, 154)
-        self.verticalLayout = QtWidgets.QVBoxLayout(AddCustomerDialog)
+class Ui_EditCustomerDialog(object):
+    def setupUi(self, EditCustomerDialog):
+        EditCustomerDialog.setObjectName("EditCustomerDialog")
+        EditCustomerDialog.resize(330, 154)
+        self.verticalLayout = QtWidgets.QVBoxLayout(EditCustomerDialog)
         self.verticalLayout.setObjectName("verticalLayout")
-        self.titleLabel = QtWidgets.QLabel(parent=AddCustomerDialog)
+        self.titleLabel = QtWidgets.QLabel(parent=EditCustomerDialog)
         self.titleLabel.setMinimumSize(QtCore.QSize(0, 30))
         font = QtGui.QFont()
         font.setPointSize(12)
@@ -28,24 +28,24 @@ class Ui_AddCustomerDialog(object):
         self.verticalLayout.addWidget(self.titleLabel)
         self.formLayout = QtWidgets.QFormLayout()
         self.formLayout.setObjectName("formLayout")
-        self.categoryLabel_2 = QtWidgets.QLabel(parent=AddCustomerDialog)
+        self.categoryLabel_2 = QtWidgets.QLabel(parent=EditCustomerDialog)
         self.categoryLabel_2.setObjectName("categoryLabel_2")
         self.formLayout.setWidget(0, QtWidgets.QFormLayout.ItemRole.LabelRole, self.categoryLabel_2)
-        self.name = QtWidgets.QLineEdit(parent=AddCustomerDialog)
+        self.name = QtWidgets.QLineEdit(parent=EditCustomerDialog)
         self.name.setObjectName("name")
         self.formLayout.setWidget(0, QtWidgets.QFormLayout.ItemRole.FieldRole, self.name)
-        self.amountLabel = QtWidgets.QLabel(parent=AddCustomerDialog)
+        self.amountLabel = QtWidgets.QLabel(parent=EditCustomerDialog)
         self.amountLabel.setObjectName("amountLabel")
         self.formLayout.setWidget(1, QtWidgets.QFormLayout.ItemRole.LabelRole, self.amountLabel)
-        self.phone_number = QtWidgets.QLineEdit(parent=AddCustomerDialog)
+        self.phone_number = QtWidgets.QLineEdit(parent=EditCustomerDialog)
         self.phone_number.setObjectName("phone_number")
         self.formLayout.setWidget(1, QtWidgets.QFormLayout.ItemRole.FieldRole, self.phone_number)
         self.horizontalLayout_3 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_3.setContentsMargins(-1, 20, -1, -1)
         self.horizontalLayout_3.setObjectName("horizontalLayout_3")
-        self.btn_add_customer = QtWidgets.QPushButton(parent=AddCustomerDialog)
-        self.btn_add_customer.setMinimumSize(QtCore.QSize(70, 25))
-        self.btn_add_customer.setStyleSheet("QPushButton {\n"
+        self.btn_edit_customer = QtWidgets.QPushButton(parent=EditCustomerDialog)
+        self.btn_edit_customer.setMinimumSize(QtCore.QSize(70, 25))
+        self.btn_edit_customer.setStyleSheet("QPushButton {\n"
 "    background-color: #2ecc71;\n"
 "    color: #fff;\n"
 "    border: none;\n"
@@ -53,9 +53,9 @@ class Ui_AddCustomerDialog(object):
 "    font-weight: bold;\n"
 "}\n"
 "")
-        self.btn_add_customer.setObjectName("btn_add_customer")
-        self.horizontalLayout_3.addWidget(self.btn_add_customer)
-        self.btn_cancel = QtWidgets.QPushButton(parent=AddCustomerDialog)
+        self.btn_edit_customer.setObjectName("btn_edit_customer")
+        self.horizontalLayout_3.addWidget(self.btn_edit_customer)
+        self.btn_cancel = QtWidgets.QPushButton(parent=EditCustomerDialog)
         self.btn_cancel.setMinimumSize(QtCore.QSize(70, 25))
         self.btn_cancel.setStyleSheet("QPushButton {\n"
 "    background-color: #585858;\n"
@@ -69,26 +69,26 @@ class Ui_AddCustomerDialog(object):
         self.formLayout.setLayout(2, QtWidgets.QFormLayout.ItemRole.FieldRole, self.horizontalLayout_3)
         self.verticalLayout.addLayout(self.formLayout)
 
-        self.retranslateUi(AddCustomerDialog)
-        QtCore.QMetaObject.connectSlotsByName(AddCustomerDialog)
+        self.retranslateUi(EditCustomerDialog)
+        QtCore.QMetaObject.connectSlotsByName(EditCustomerDialog)
 
-    def retranslateUi(self, AddCustomerDialog):
+    def retranslateUi(self, EditCustomerDialog):
         _translate = QtCore.QCoreApplication.translate
-        AddCustomerDialog.setWindowTitle(_translate("AddCustomerDialog", "Thêm khách hàng"))
-        self.titleLabel.setText(_translate("AddCustomerDialog", "Thêm khách hàng"))
-        self.categoryLabel_2.setText(_translate("AddCustomerDialog", "Tên:"))
-        self.name.setPlaceholderText(_translate("AddCustomerDialog", "Nhập tên"))
-        self.amountLabel.setText(_translate("AddCustomerDialog", "Số điện thoại:"))
-        self.phone_number.setPlaceholderText(_translate("AddCustomerDialog", "Nhập số điện thoại"))
-        self.btn_add_customer.setText(_translate("AddCustomerDialog", "Thêm"))
-        self.btn_cancel.setText(_translate("AddCustomerDialog", "Hủy"))
+        EditCustomerDialog.setWindowTitle(_translate("EditCustomerDialog", "Sửa khách hàng"))
+        self.titleLabel.setText(_translate("EditCustomerDialog", "Sửa khách hàng"))
+        self.categoryLabel_2.setText(_translate("EditCustomerDialog", "Tên:"))
+        self.name.setPlaceholderText(_translate("EditCustomerDialog", "Nhập tên"))
+        self.amountLabel.setText(_translate("EditCustomerDialog", "Số điện thoại:"))
+        self.phone_number.setPlaceholderText(_translate("EditCustomerDialog", "Nhập số điện thoại"))
+        self.btn_edit_customer.setText(_translate("EditCustomerDialog", "Sửa"))
+        self.btn_cancel.setText(_translate("EditCustomerDialog", "Hủy"))
 
 
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
-    AddCustomerDialog = QtWidgets.QDialog()
-    ui = Ui_AddCustomerDialog()
-    ui.setupUi(AddCustomerDialog)
-    AddCustomerDialog.show()
+    EditCustomerDialog = QtWidgets.QDialog()
+    ui = Ui_EditCustomerDialog()
+    ui.setupUi(EditCustomerDialog)
+    EditCustomerDialog.show()
     sys.exit(app.exec())

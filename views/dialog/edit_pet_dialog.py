@@ -5,12 +5,13 @@ from PyQt6.QtWidgets import QDialog
 from views.dialog.edit_pet import Ui_EditPetDialog
 
 class EditPetDialog(QDialog, Ui_EditPetDialog):
-    def __init__(self, parent=None, pet=None):
+    def __init__(self, parent=None, pet=None, reloadList = False):
         super().__init__()
         self.setupUi(self)
 
         self.parent = parent
         self.pet = pet
+        self.reloadList = reloadList
 
         self.btn_edit_pet.clicked.connect(self.updated_data)
 
@@ -39,4 +40,4 @@ class EditPetDialog(QDialog, Ui_EditPetDialog):
 
         if self.parent:
             self.close()
-            self.parent.update_pet(updated_data)
+            self.parent.update_pet(updated_data, self.reloadList)

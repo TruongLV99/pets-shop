@@ -11,6 +11,7 @@ class AddHealthDialog(QDialog, Ui_AddHealthDialog):
         self.parent = parent
 
         self.btn_add_health.clicked.connect(self.add_data)
+        self.btn_cancel.clicked.connect(self.closeEvt)
 
     def add_data(self):
         add_data = {
@@ -23,3 +24,6 @@ class AddHealthDialog(QDialog, Ui_AddHealthDialog):
         if self.parent:
             self.close()
             self.parent.add_health(add_data)
+
+    def closeEvt(self):
+        self.close()

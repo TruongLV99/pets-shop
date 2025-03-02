@@ -11,6 +11,7 @@ class AddFeedingDialog(QDialog, Ui_AddFeedingDialog):
         self.parent = parent
 
         self.btn_add_feeding.clicked.connect(self.add_data)
+        self.btn_cancel.clicked.connect(self.closeEvt)
 
     def add_data(self):
         add_data = {
@@ -23,3 +24,6 @@ class AddFeedingDialog(QDialog, Ui_AddFeedingDialog):
         if self.parent:
             self.close()
             self.parent.add_feeding(add_data)
+
+    def closeEvt(self):
+        self.close()

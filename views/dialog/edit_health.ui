@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>AddCustomerDialog</class>
- <widget class="QDialog" name="AddCustomerDialog">
+ <class>EditHealthDialog</class>
+ <widget class="QDialog" name="EditHealthDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>330</width>
-    <height>154</height>
+    <width>327</width>
+    <height>374</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Thêm khách hàng</string>
+   <string>Sửa chăm sóc sức khỏe</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
@@ -33,7 +33,7 @@
       <string notr="true">font-weight: bold;</string>
      </property>
      <property name="text">
-      <string>Thêm khách hàng</string>
+      <string>Sửa chăm sóc sức khỏe</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
@@ -45,38 +45,62 @@
      <item row="0" column="0">
       <widget class="QLabel" name="categoryLabel_2">
        <property name="text">
-        <string>Tên:</string>
+        <string>Loại vắc xin:</string>
        </property>
       </widget>
      </item>
      <item row="0" column="1">
-      <widget class="QLineEdit" name="name">
+      <widget class="QLineEdit" name="vaccine_name">
        <property name="placeholderText">
-        <string>Nhập tên</string>
+        <string>Nhập loại vắc xin</string>
        </property>
       </widget>
      </item>
      <item row="1" column="0">
-      <widget class="QLabel" name="amountLabel">
+      <widget class="QLabel" name="dateLabel">
        <property name="text">
-        <string>Số điện thoại:</string>
+        <string>Ngày tiêm:</string>
        </property>
       </widget>
      </item>
      <item row="1" column="1">
-      <widget class="QLineEdit" name="phone_number">
-       <property name="placeholderText">
-        <string>Nhập số điện thoại</string>
+      <widget class="QDateEdit" name="vaccination_date">
+       <property name="displayFormat">
+        <string>dd/MM/yyyy</string>
+       </property>
+       <property name="calendarPopup">
+        <bool>true</bool>
        </property>
       </widget>
      </item>
-     <item row="2" column="1">
+     <item row="2" column="0">
+      <widget class="QLabel" name="amountLabel">
+       <property name="text">
+        <string>Ngày khám:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="detailsLabel">
+       <property name="text">
+        <string>Tình trạng:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="QTextEdit" name="health_condition">
+       <property name="placeholderText">
+        <string>Nhập tình trạng...</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1">
       <layout class="QHBoxLayout" name="horizontalLayout_3">
        <property name="topMargin">
         <number>20</number>
        </property>
        <item>
-        <widget class="QPushButton" name="btn_add_customer">
+        <widget class="QPushButton" name="btn_edit_health">
          <property name="minimumSize">
           <size>
            <width>70</width>
@@ -94,7 +118,7 @@
 </string>
          </property>
          <property name="text">
-          <string>Thêm</string>
+          <string>Sửa</string>
          </property>
         </widget>
        </item>
@@ -121,6 +145,16 @@
         </widget>
        </item>
       </layout>
+     </item>
+     <item row="2" column="1">
+      <widget class="QDateEdit" name="health_check_date">
+       <property name="displayFormat">
+        <string>dd/MM/yyyy</string>
+       </property>
+       <property name="calendarPopup">
+        <bool>true</bool>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>

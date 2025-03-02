@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>AddCustomerDialog</class>
- <widget class="QDialog" name="AddCustomerDialog">
+ <class>EditAppointmentDialog</class>
+ <widget class="QDialog" name="EditAppointmentDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
     <width>330</width>
-    <height>154</height>
+    <height>353</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Thêm khách hàng</string>
+   <string>Sửa lịch hẹn</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
@@ -33,7 +33,7 @@
       <string notr="true">font-weight: bold;</string>
      </property>
      <property name="text">
-      <string>Thêm khách hàng</string>
+      <string>Sửa lịch hẹn</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
@@ -43,40 +43,29 @@
    <item>
     <layout class="QFormLayout" name="formLayout">
      <item row="0" column="0">
-      <widget class="QLabel" name="categoryLabel_2">
+      <widget class="QLabel" name="dateLabel">
        <property name="text">
-        <string>Tên:</string>
+        <string>Ngày hẹn:</string>
        </property>
       </widget>
      </item>
      <item row="0" column="1">
-      <widget class="QLineEdit" name="name">
-       <property name="placeholderText">
-        <string>Nhập tên</string>
+      <widget class="QDateEdit" name="appointment_date">
+       <property name="displayFormat">
+        <string>dd/MM/yyyy</string>
+       </property>
+       <property name="calendarPopup">
+        <bool>true</bool>
        </property>
       </widget>
      </item>
-     <item row="1" column="0">
-      <widget class="QLabel" name="amountLabel">
-       <property name="text">
-        <string>Số điện thoại:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="1">
-      <widget class="QLineEdit" name="phone_number">
-       <property name="placeholderText">
-        <string>Nhập số điện thoại</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="1">
+     <item row="3" column="1">
       <layout class="QHBoxLayout" name="horizontalLayout_3">
        <property name="topMargin">
         <number>20</number>
        </property>
        <item>
-        <widget class="QPushButton" name="btn_add_customer">
+        <widget class="QPushButton" name="btn_edit_appointment">
          <property name="minimumSize">
           <size>
            <width>70</width>
@@ -94,7 +83,7 @@
 </string>
          </property>
          <property name="text">
-          <string>Thêm</string>
+          <string>Sửa</string>
          </property>
         </widget>
        </item>
@@ -121,6 +110,34 @@
         </widget>
        </item>
       </layout>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="timeLabel">
+       <property name="text">
+        <string>Thời gian hẹn:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QTimeEdit" name="appointment_time">
+       <property name="displayFormat">
+        <string>hh:mm</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QTextEdit" name="purpose">
+       <property name="placeholderText">
+        <string>Nhập mục đích cuộc hẹn...</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="timeLabel_2">
+       <property name="text">
+        <string>Mục đích</string>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>
